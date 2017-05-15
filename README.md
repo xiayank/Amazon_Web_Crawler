@@ -4,6 +4,7 @@ This project is a crawler of website Amazon which based on jsop API. It will
 crawl the product list from Amazon and transfer it to advertisement info.
 
 ##Input File
+
 1.Raw Query:
 ```java
     [query keyword],[bid price],[campaignId]
@@ -16,6 +17,7 @@ crawl the product list from Amazon and transfer it to advertisement info.
     173.208.78.40,60099,61336,username,password
 ```
 ##Output File
+
 1.Log File
 
 2.Ads File
@@ -24,6 +26,7 @@ crawl the product list from Amazon and transfer it to advertisement info.
 ```
 
 ##Run
+
 Set Input and outout file path:
  
 >In `CrawlerMain.java`, set array `args` parameter as `[rawQueryDataFilePath], [adsDataFilePath],[proxyFilePath],[logFilePath]
