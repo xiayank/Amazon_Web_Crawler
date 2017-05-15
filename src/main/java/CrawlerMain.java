@@ -1,26 +1,26 @@
 /**
  * Created by john on 10/12/16.
  */
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.BufferedWriter;
-
-import java.io.IOException;
-import java.util.List;
-
 import ad.Ad;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import crawler.AmazonCrawler;
+import org.apache.lucene.analysis.standard.StandardTokenizer;
+import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class CrawlerMain {
     public static void main(String[] args) throws IOException {
-        args = new String[]{"/Users/NIC/Documents/504_BankEnd/HW/HW3_Clawer/MyCode/Amazon_web_crawler/InputFile/RawQuery3.txt", "/Users/NIC/Documents/504_BankEnd/HW/HW3_Clawer/MyCode/Amazon_web_crawler/InputFile/proxylist_bittiger.csv",
-                "/Users/NIC/Documents/504_BankEnd/HW/HW3_Clawer/MyCode/Amazon_web_crawler/OutputFile/adsData.txt","/Users/NIC/Documents/504_BankEnd/HW/HW3_Clawer/MyCode/Amazon_web_crawler/OutputFile/logFile.txt"};
+        args = new String[]{"/Users/NIC/Documents/504_BankEnd/HW/HW3_Clawer/MyCode/Amazon_web_crawler/InputFile/RawQuery3.txt",
+                "/Users/NIC/Documents/504_BankEnd/HW/HW3_Clawer/MyCode/Amazon_web_crawler/InputFile/proxylist_bittiger.csv",
+                "/Users/NIC/Documents/504_BankEnd/HW/HW3_Clawer/MyCode/Amazon_web_crawler/OutputFile/adsData.txt",
+                "/Users/NIC/Documents/504_BankEnd/HW/HW3_Clawer/MyCode/Amazon_web_crawler/OutputFile/logFile.txt"
+        };
 //        args = new String[]{"rawQueryData_path\\rawQuery.txt", "proxyFile_path\\Proxylist.csv",
 //                "adsDataFile_path\\adsData.txt","logFile_path\\logFile.txt"};
         if(args.length < 2)
@@ -56,6 +56,26 @@ public class CrawlerMain {
                 int queryGroupId = Integer.parseInt(fields[3].trim());
 
                 List<Ad> ads =  crawler.GetAdBasicInfoByQuery(query, bidPrice, campaignId, queryGroupId);
+
+                //generate sub query and get ads of them
+                String category = ads.isEmpty()? "" : ads.get(0).category;
+                List<String>subQuery = getSubQuery(query);
+                for(String aSubQuery: subQuery){
+                    List<Ad> adsOfSubQuery = crawler.GetAdBasicInfoByQuery(aSubQuery, bidPrice, campaignId, queryGroupId);
+                    if(adsOfSubQuery.isEmpty()){
+                        System.out.println("sub query "+ aSubQuery + "is empty");
+                        continue;
+                    }else if (adsOfSubQuery.get(0).category.equals(category)){
+
+                        ads.addAll(adsOfSubQuery);
+                        System.out.println("sub query" + aSubQuery + "is count");
+                    }else {
+                        System.out.println("sub query "+ aSubQuery + "is not same category");
+                        continue;
+                    }
+
+                }
+
                 for(Ad ad : ads) {
                     String jsonInString = mapper.writeValueAsString(ad);
 
@@ -78,4 +98,47 @@ public class CrawlerMain {
 
         crawler.cleanup();
     }
+
+    static List<String>getSubQuery(String query) throws IOException {
+        List<String>subQuery = new ArrayList<>();
+        List<String> tokens = tokenize(query);
+        //n is from 2 to size - 1
+        for(int i = 2; i <= tokens.size() - 1; i++){
+            subQuery.addAll(getNgramFromTokens(tokens, i));
+        }
+        return subQuery;
+    }
+
+    static List<String>tokenize(String str) throws IOException {
+        if(str == null) return null;
+        List<String>tokens = new ArrayList<>();
+        StandardTokenizer standardTokenizer = new StandardTokenizer();
+        standardTokenizer.setReader(new StringReader(str));
+        standardTokenizer.reset();
+        while(standardTokenizer.incrementToken()){
+            tokens.add(standardTokenizer.getAttribute(CharTermAttribute.class).toString());
+        }
+        return tokens;
+
+
+    }
+
+    static List<String>getNgramFromTokens(List<String>tokens, int n){
+        List<String>nGram = new ArrayList<>();
+        String currentGram = new String();
+        for(int i = 0; i <= tokens.size() - n; i++){
+            for(int j = i; j < i + n; j++){
+                currentGram += tokens.get(j) + ' ';
+            }
+            nGram.add(currentGram);
+            currentGram = "";
+        }
+
+        return nGram;
+
+    }
+
+
+
+
 }
