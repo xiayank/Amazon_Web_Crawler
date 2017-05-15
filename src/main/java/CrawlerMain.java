@@ -58,6 +58,7 @@ public class CrawlerMain {
                 List<Ad> ads =  crawler.GetAdBasicInfoByQuery(query, bidPrice, campaignId, queryGroupId);
                 for(Ad ad : ads) {
                     String jsonInString = mapper.writeValueAsString(ad);
+
                     //System.out.println(jsonInString);
                     bw.write(jsonInString);
                     bw.newLine();

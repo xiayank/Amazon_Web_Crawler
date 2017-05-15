@@ -1,26 +1,15 @@
-Prenatal DHA, 3.4, 8040,10
-prenatal DHA supplement, 12.5, 8041, 10
-Prenatal DHA nordic, 36.8, 8042, 10
-GNC prenatal DHA, 15.2, 8043, 10
-natural made prenatal DHA, 28.3, 8044, 10
-
-home theater system , 22.0, 8060,11
-wireless home theater system,2.5 ,8061,11
-Home theater system speaker,15.0,8062,11
-bose home theater system,25.0 ,8063 ,11
-bluetooth home theater system,18.0,8064 ,11
-
-LED TV, 18.0, 8070,12
-Smart LED TV,12.0,8071,12
-Sony LED TV,27.0,8072,12
-TCL Smart LED TV,36.0,8073,12
-LG 4K LED TV,21.0,8074,12
 
 smart watch, 4.5, 8080,13
 smart watch for iphone, 15, 8081, 13
 samsung smart watch, 10, 8082, 13
 smart watch charger, 3, 8083, 13
 best smart watch brand, 20, 8084, 13
+
+LED TV, 18.0, 8070,12
+Smart LED TV,12.0,8071,12
+Sony LED TV,27.0,8072,12
+TCL Smart LED TV,36.0,8073,12
+LG 4K LED TV,21.0,8074,12
 
 Video Games, 6.8, 8090,14
 Xbox 360 video games,4.5,8091,14

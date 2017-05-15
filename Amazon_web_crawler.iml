@@ -15,7 +15,7 @@
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.8.3" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.8.3" level="project" />
     <orderEntry type="library" name="Maven: org.jsoup:jsoup:1.10.2" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-core:4.0.0" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-analyzers-common:4.0.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-core:6.5.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-analyzers-common:6.5.0" level="project" />
   </component>
 </module>
