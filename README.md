@@ -46,7 +46,78 @@ Run the fat jar:
 ```bash
 java -jar target/Amazon-web-crawler-1.0-SNAPSHOT-jar-with-dependencies.jar
 ```
+## Addition Feature
+1.Tokenize
+```java
+private List<String> tokenize(String str) throws IOException {
+        if(str == null )return null;
 
+        List<String> tokens = new ArrayList<>();
+
+        //tokenize
+        StandardTokenizer standardTokenizer = new StandardTokenizer();
+        standardTokenizer.setReader(new StringReader(str));
+        standardTokenizer.reset();
+
+        //
+        CharArraySet charArraySet = CharArraySet.copy(StandardAnalyzer.STOP_WORDS_SET);
+        StopFilter stopFilter = new StopFilter(standardTokenizer, charArraySet);
+
+        LowerCaseFilter lowerCaseFilter = new LowerCaseFilter(stopFilter);
+
+        while(lowerCaseFilter.incrementToken()){
+            tokens.add(lowerCaseFilter.getAttribute(CharTermAttribute.class).toString());
+        }
+//        for(String token: tokens ){
+//            System.out.println("token test = "+token);
+//        }
+        return tokens;
+
+    }
+```
+
+2. Get N-gram sub query
+ ```java
+
+    static List<String>getSubQuery(String query) throws IOException {
+        List<String>subQuery = new ArrayList<>();
+        List<String> tokens = tokenize(query);
+        //n is from 2 to size - 1
+        for(int i = 2; i <= tokens.size() - 1; i++){
+            subQuery.addAll(getNgramFromTokens(tokens, i));
+        }
+        return subQuery;
+    }
+
+    static List<String>tokenize(String str) throws IOException {
+        if(str == null) return null;
+        List<String>tokens = new ArrayList<>();
+        StandardTokenizer standardTokenizer = new StandardTokenizer();
+        standardTokenizer.setReader(new StringReader(str));
+        standardTokenizer.reset();
+        while(standardTokenizer.incrementToken()){
+            tokens.add(standardTokenizer.getAttribute(CharTermAttribute.class).toString());
+        }
+        return tokens;
+
+
+    }
+
+    static List<String>getNgramFromTokens(List<String>tokens, int n){
+        List<String>nGram = new ArrayList<>();
+        String currentGram = new String();
+        for(int i = 0; i <= tokens.size() - n; i++){
+            for(int j = i; j < i + n; j++){
+                currentGram += tokens.get(j) + ' ';
+            }
+            nGram.add(currentGram);
+            currentGram = "";
+        }
+
+        return nGram;
+
+    }
+```
 ## Dependecies
 
 #### 1. jackson : deal with json data
