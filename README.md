@@ -68,7 +68,7 @@ java -jar target/Amazon-web-crawler-1.0-SNAPSHOT-jar-with-dependencies.jar
         </dependency>
 ```
 
-####2. jsoup : provide crawler API
+#### 2. jsoup : provide crawler API
 ```xml
         <dependency>
             <groupId>org.jsoup</groupId>
