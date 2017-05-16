@@ -47,7 +47,7 @@ Run the fat jar:
 java -jar target/Amazon-web-crawler-1.0-SNAPSHOT-jar-with-dependencies.jar
 ```
 ## Addition Feature
-1.Tokenize
+#### 1.Tokenize
 ```java
 private List<String> tokenize(String str) throws IOException {
         if(str == null )return null;
@@ -76,7 +76,7 @@ private List<String> tokenize(String str) throws IOException {
     }
 ```
 
-2. Get N-gram sub query
+#### 2. Get N-gram sub query
  ```java
 
     static List<String>getSubQuery(String query) throws IOException {
